@@ -156,13 +156,13 @@
 	
 	function CreateVideo()
 	{
-		var url = YoutubeUrlParser($("#youtubeUrlInput").val());
+		var ytId = YoutubeUrlParser($("#youtubeUrlInput").val());
 		
 		var newVideo = {title:"Null", duration:"PT0S", url:"#", imgInfo:{url:"#", width:"0", height:"0"}, isDelete:true, isPlayed:false};
-		//console.log(url);
-		if(url)
+		//console.log(ytId);
+		if(ytId)
 		{
-			SetNewVideoIntoList(url);
+			SetNewVideoIntoList(ytId, newVideo);
 		}
 		youtubeUrlInput.value = "";
 	}
@@ -174,6 +174,7 @@
 		"?key=" + key +
 		"&part=snippet,contentDetails" +
 		"&id=" + urlId;
+		//console.log( url );
 		
 		fetch( url, {method: 'get'})
 		.then(function(response) {
