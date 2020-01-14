@@ -122,7 +122,9 @@
 </div>
 
 <script>
+	// google api key
 	var key = "AIzaSyDoZViKwl7ooWYDNB4F4P3x_QgIbMFyOig";
+	
 	var videoList = [];
 	var isPlaying = false;
 	var playingIndex = -1;
@@ -154,12 +156,14 @@
 	
 	function CreateVideo()
 	{
-		var youtubeUrlInput = document.getElementById("youtubeUrlInput");
-		var url = youtubeUrlInput.value;
-		//console.log(url);
+		var url = YoutubeUrlParser($("#youtubeUrlInput").val());
+		
 		var newVideo = {title:"Null", duration:"PT0S", url:"#", imgInfo:{url:"#", width:"0", height:"0"}, isDelete:true, isPlayed:false};
-		//SetNewVideoIntoList("XkeU8w2Y-2Y", newVideo);
-		SetNewVideoIntoList(url.split("=")[1], newVideo);
+		//console.log(url);
+		if(url)
+		{
+			SetNewVideoIntoList(url);
+		}
 		youtubeUrlInput.value = "";
 	}
 	
@@ -368,6 +372,13 @@
 		var temp = videoList[aIndex];
 		videoList[aIndex] = videoList[bIndex];
 		videoList[bIndex] = temp;
+	}
+	
+	// https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url?page=1&tab=votes#tab-top
+	function YoutubeUrlParser(url){
+		var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+		var match = url.match(regExp);
+		return (match&&match[1].length==11)? match[1] : false;
 	}
 	
 	// ------------------------ Utils ------------------------
