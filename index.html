@@ -2,26 +2,16 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--CSS files-->
+<link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/jquery.dataTables.min.css"/>
+<!--JS files-->
 <script src="https://www.youtube.com/player_api"></script>
-<script src="lib/moment_js/moment.js"></script>
+<script type="text/javascript" src="lib/moment_js/moment.js"></script>
+<script type="text/javascript" src="lib/datatables.min.js"></script>
 
 <title>SamChu - Simple Youtube PlayList</title>
 <style>
-table
-{
-	border-bottom: 1px Solid Black;         
-	border-right: 1px Solid Black;         
-	border-collapse : collapse;  
-}
-table td, table th  
-{    
-	border-left: 1px Solid Black;         
-	border-top: 1px Solid Black;              
-	border-bottom:none;    
-	border-right:none;
-	max-width: 400px;
-	word-wrap: break-word;
-}
 .video-container {
     position: relative;
     padding-bottom: 40%;
@@ -78,15 +68,20 @@ table td, table th
 		輸入Youtube影片網址 : <input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
 		<input type="submit" value="加入清單" onclick="CreateVideo()">
 		
-		<table id="videoListTable" style="max-width:100%;">
+		<table id="videoListTable" class="display" style="max-width:100%;">
 			<tr>
 				<th>縮圖</th>
 				<th>標題</th>
 				<th>長度</th>
 				<th>操作</th>
 			</tr>
+            <tr>
+                <td>Ashton Cox</td>
+                <td>Junior Technical Author</td>
+                <td>San Francisco</td>
+                <td>66</td>
+            </tr>
 		</table>
-	
 	</div>
 </div>
 
@@ -95,6 +90,12 @@ table td, table th
 	var videoList = [];
 	var isPlaying = false;
 	var playingIndex = -1;
+	
+	$(document).ready( function () 
+		{
+			$('#videoListTable').DataTable();
+		} 
+	)
 	
 	function CreateVideo()
 	{
@@ -176,6 +177,7 @@ table td, table th
 			}
 		}
 		videoListTable.innerHTML = innerHtml;
+		$('#videoListTable').DataTable();
 	}
 	
 	function DeleteOneOnList(deleteIndex)
