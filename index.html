@@ -80,7 +80,9 @@
 
 <div>
 
-	<div id="flip" class="flip-switch">Play List</div>
+	<div id="flip" class="flip-switch">
+		Play List<img id="playListImg" src="Image/up-arrow.png" style="position: absolute;right: 15px;" height="20" width="20">
+	</div>
 	<div id="playListPanel" class="playList">
 		<div style="text-align: center;">
 			Youtube Link : 
@@ -123,18 +125,28 @@
 	var videoList = [];
 	var isPlaying = false;
 	var playingIndex = -1;
-	var videoListTable = $('#videoListTable').DataTable
-		({
-			"scrollY": "300px",
-			"paging":   false,
-			"ordering": false,
-			"info":     false,
-			"language": {"emptyTable": " "}
-		});
+	var videoListTable;
 	
 	$(document).ready( function () 
 	{
+		videoListTable = $('#videoListTable').DataTable
+			({
+				"scrollY": "300px",
+				"paging":   false,
+				"ordering": false,
+				"info":     false,
+				"language": {"emptyTable": " "}
+			});
+			
 		$("#flip").click(function(){
+			if ($("#playListPanel").is(':visible'))
+			{
+				$("#playListImg").attr("src", "Image/down-arrow.png");
+			}
+			else
+			{
+				$("#playListImg").attr("src", "Image/up-arrow.png");
+			}
 			$("#playListPanel").slideToggle("slow");
 		});
 	});
@@ -204,9 +216,9 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var moveUpBtn = "<button type=\"button\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;\">上移</button>";
-				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
-				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
+				var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">上移</input>";
+				var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">下移</input>";
+				var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">刪除</input>";
 				
 				videoListTable.row.add( [ index++, imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
 			}
