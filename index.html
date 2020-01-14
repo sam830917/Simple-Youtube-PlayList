@@ -86,8 +86,6 @@ table td, table th
 				<th>操作</th>
 			</tr>
 		</table>
-		
-		<p>#TODO 影片長度格式為ISO 8601 string</p>
 	
 	</div>
 </div>
@@ -162,7 +160,7 @@ table td, table th
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + video.duration + "</td>";
+				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
 				var moveUpBtn = "<button type=\"button\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;\">上移</button>";
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
@@ -219,13 +217,6 @@ table td, table th
 		
 		SwapVideoInList(moveIndex, index);
 		UpdatePlayList();
-	}
-	
-	function SwapVideoInList(aIndex, bIndex)
-	{
-		var temp = videoList[aIndex];
-		videoList[aIndex] = videoList[bIndex];
-		videoList[bIndex] = temp;
 	}
 	
 	var player;
@@ -306,6 +297,32 @@ table td, table th
             PlayNextVideo();
         }
     }
+	
+	// ------------------------ Utils ------------------------
+	
+	function pad(num) 
+	{
+		return ("0"+num).slice(-2);
+	}
+	
+	function ConvertVideoTimeFormat(durationTimeStr)
+	{
+		var durationSec = moment.duration('PT15M33S').asSeconds();
+		var minutes = Math.floor(durationSec / 60);
+		durationSec = durationSec%60;
+		var hours = Math.floor(minutes/60)
+		minutes = minutes%60;
+		return `${pad(hours)}:${pad(minutes)}:${pad(durationSec)}`;
+	}
+	
+	function SwapVideoInList(aIndex, bIndex)
+	{
+		var temp = videoList[aIndex];
+		videoList[aIndex] = videoList[bIndex];
+		videoList[bIndex] = temp;
+	}
+	
+	// ------------------------ Utils ------------------------
 </script>
 
 </body>
