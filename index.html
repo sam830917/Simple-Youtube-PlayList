@@ -99,10 +99,13 @@
 	var playingIndex = -1;
 	
 	$(document).ready( function () 
-		{
-			FormatVideoListDataTable();
-		} 
-	)
+	{
+		$('#videoListTable').DataTable({
+			"paging":   false,
+			"ordering": false,
+			"info":     false
+		});
+	});
 	
 	function CreateVideo()
 	{
@@ -329,15 +332,6 @@
 		var temp = videoList[aIndex];
 		videoList[aIndex] = videoList[bIndex];
 		videoList[bIndex] = temp;
-	}
-	
-	function FormatVideoListDataTable()
-	{
-		$('#videoListTable').DataTable({
-			"paging":   false,
-			"ordering": false,
-			"info":     false
-		});
 	}
 	
 	// ------------------------ Utils ------------------------
