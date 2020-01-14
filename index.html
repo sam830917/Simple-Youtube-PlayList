@@ -100,7 +100,7 @@
 	
 	$(document).ready( function () 
 		{
-			$('#videoListTable').DataTable();
+			FormatVideoListDataTable();
 		} 
 	)
 	
@@ -185,7 +185,7 @@
 			}
 		}
 		videoListTable.innerHTML = innerHtml;
-		$('#videoListTable').DataTable();
+		FormatVideoListDataTable();
 	}
 	
 	function DeleteOneOnList(deleteIndex)
@@ -330,6 +330,15 @@
 		var temp = videoList[aIndex];
 		videoList[aIndex] = videoList[bIndex];
 		videoList[bIndex] = temp;
+	}
+	
+	function FormatVideoListDataTable()
+	{
+		$('#videoListTable').DataTable({
+			"paging":   false,
+			"ordering": false,
+			"info":     false
+		});
 	}
 	
 	// ------------------------ Utils ------------------------
