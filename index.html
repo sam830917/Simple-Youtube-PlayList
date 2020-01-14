@@ -171,12 +171,11 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var row = "<td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
+				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
 				var moveUpBtn = "<button type=\"button\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;\">上移</button>";
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
 				
-				row = row.concat("<tr>");
 				row = row.concat("<td>");
 				row = row.concat(moveUpBtn);
 				row = row.concat(moveDownBtn);
