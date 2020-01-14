@@ -58,6 +58,7 @@
 }
 
 .flip-switch {
+	cursor: pointer;
 	padding: 5px;
 	text-align: center;
 	background-color: #e5eecc;
@@ -216,9 +217,9 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">上移</input>";
-				var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">下移</input>";
-				var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;height=\"50\"\">刪除</input>";
+				var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+				var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+				var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
 				
 				videoListTable.row.add( [ index++, imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
 			}
