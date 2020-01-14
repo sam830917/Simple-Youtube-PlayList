@@ -3,12 +3,15 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--CSS files-->
+<link rel="stylesheet" type="text/css" href="lib/alertify/css/themes/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" type="text/css" href="lib/alertify/css/alertify.css"/>
 <!--JS files-->
 <script src="https://www.youtube.com/player_api"></script>
 <script type="text/javascript" src="lib/moment_js/moment.js"></script>
 <script type="text/javascript" src="lib/datatables.min.js"></script>
+<script type="text/javascript" src="lib/alertify/alertify.js"></script>
 <script type="text/javascript" src="lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
 
 <title>SamChu - Simple Youtube PlayList</title>
@@ -171,11 +174,11 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
 				var moveUpBtn = "<button type=\"button\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;\">上移</button>";
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
 				
+				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
 				row = row.concat("<td>");
 				row = row.concat(moveUpBtn);
 				row = row.concat(moveDownBtn);
