@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://www.youtube.com/player_api"></script>
+<script src="http://www.youtube.com/player_api"></script>
 
 <style>
 table
@@ -196,7 +196,7 @@ table td, table th
 				return;
 			}
 			video = videoList[--index];
-		}while(video.isDelete);
+		}while(video.isDelete || video.isPlayed);
 		
 		SwapVideoInList(moveIndex, index);
 		UpdatePlayList();
@@ -213,7 +213,7 @@ table td, table th
 				return;
 			}
 			video = videoList[++index];
-		}while(video.isDelete);
+		}while(video.isDelete || video.isPlayed);
 		
 		SwapVideoInList(moveIndex, index);
 		UpdatePlayList();
@@ -307,4 +307,4 @@ table td, table th
 </script>
 
 </body>
-</html> 
+</html>
