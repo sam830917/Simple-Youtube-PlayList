@@ -56,6 +56,19 @@
 .prev:hover, .next:hover {
   background-color: rgba(0,0,0,0.6);
 }
+
+#panel, #flip {
+  padding: 5px;
+  text-align: center;
+  background-color: #e5eecc;
+  border: solid 1px #c3c3c3;
+}
+
+#panel {
+  position: absolute;
+  padding: 50px;
+  display: none;
+}
 </style>
 
 </head>
@@ -64,22 +77,19 @@
 
 <div>
 
-	<div class="video-container" id="video-container">
-		<div id="player"></div>
-		<a class="prev" onclick="PlayPreviousVideo()">&#10094;</a>
-		<a class="next" onclick="PlayNextVideo()">&#10095;</a>
-	</div>
+	<div id="flip">Play List</div>
 
-	<div style="width: 100%;">
+	<div id="playListPanel" style="width: 100%; position: absolute;">
 		<div style="text-align: center;">
 			Youtube Link : 
 			<input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
 		<input type="submit" value="Enter" onclick="CreateVideo()">
 		</div>
 		
-		<table id="videoListTable" class="table display" style="max-width:100%;text-align: center;">
+		<table id="videoListTable" class="table display" style="text-align: center;">
 			<thead>
 				<tr>
+					<th width="5%">Index</th>
 					<th width="10%">Image</th>
 					<th>Title</th>
 					<th width="15%">Duration</th>
@@ -98,6 +108,12 @@
 			<tbody>
 		</table>
 	</div>
+	
+	<div class="video-container" id="video-container">
+		<div id="player"></div>
+		<a class="prev" onclick="PlayPreviousVideo()">&#10094;</a>
+		<a class="next" onclick="PlayNextVideo()">&#10095;</a>
+	</div>
 </div>
 
 <script>
@@ -107,7 +123,7 @@
 	var playingIndex = -1;
 	var videoListTable = $('#videoListTable').DataTable
 		({
-			"scrollY": 100,
+			"scrollY": "30vh",
 			"paging":   false,
 			"ordering": false,
 			"info":     false,
@@ -116,6 +132,9 @@
 	
 	$(document).ready( function () 
 	{
+		$("#flip").click(function(){
+			$("#playListPanel").slideToggle("slow");
+		});
 	});
 	
 	function CreateVideo()
@@ -176,6 +195,7 @@
 	function UpdatePlayList()
 	{
 		videoListTable.clear().draw();
+		var index = 1;
 		for (var i = 0; i < videoList.length; i++)
 		{
 			var video = videoList[i];
@@ -186,7 +206,7 @@
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
 				
-				videoListTable.row.add( [ imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
+				videoListTable.row.add( [ index++, imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
 			}
 		}
 	}
