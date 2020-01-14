@@ -21,14 +21,16 @@
 .video-container {
     position: relative;
     padding-bottom: 40%;
+    padding-top: 40px;
     height: 0;
 }
+
 .video-container iframe {
     position: absolute;
     width: 100%;
     height: 100%;
 }
-/* Next & previous buttons */
+
 .prev, .next {
 	cursor: pointer;
 	position: absolute;
@@ -45,14 +47,12 @@
 	user-select: none;
 }
 
-/* Position the "next button" to the right */
 .next {
 	right: 0;
 	text-align: right;
 	border-radius: 3px 0 0 3px;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
 	background-color: rgba(0,0,0,0.6);
 }
@@ -65,8 +65,9 @@
 }
 
 .playList {
+	padding: 10px;
 	position: absolute;
-	width: 99%;
+	width: 98%;
 	z-index: 1;
 	background-color: #FFFFDF;
 	border: solid 1px #444444;
@@ -124,7 +125,7 @@
 	var playingIndex = -1;
 	var videoListTable = $('#videoListTable').DataTable
 		({
-			"scrollY": "30vh",
+			"scrollY": "300px",
 			"paging":   false,
 			"ordering": false,
 			"info":     false,
