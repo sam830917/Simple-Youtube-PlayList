@@ -9,6 +9,7 @@
 <script src="https://www.youtube.com/player_api"></script>
 <script type="text/javascript" src="lib/moment_js/moment.js"></script>
 <script type="text/javascript" src="lib/datatables.min.js"></script>
+<script type="text/javascript" src="lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
 
 <title>SamChu - Simple Youtube PlayList</title>
 <style>
@@ -68,19 +69,25 @@
 		輸入Youtube影片網址 : <input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
 		<input type="submit" value="加入清單" onclick="CreateVideo()">
 		
-		<table id="videoListTable" class="display" style="max-width:100%;">
-			<tr>
-				<th>縮圖</th>
-				<th>標題</th>
-				<th>長度</th>
-				<th>操作</th>
-			</tr>
-            <tr>
-                <td>Ashton Cox</td>
-                <td>Junior Technical Author</td>
-                <td>San Francisco</td>
-                <td>66</td>
-            </tr>
+		<table id="videoListTable" class="display" style="max-width:100%;text-align: center;">
+			<thead>
+				<tr>
+					<th width="10%">縮圖</th>
+					<th>標題</th>
+					<th width="15%">長度</th>
+					<th width="15%">操作</th>
+				</tr>
+			</thead>
+			<tbody id="videoListTbody">
+				<!--
+					<tr>
+					<td>Ashton Cox</td>
+					<td>Junior Technical Author</td>
+					<td>San Francisco</td>
+					<td>66</td>
+				-->
+				</tr>
+			<tbody>
 		</table>
 	</div>
 </div>
@@ -152,8 +159,8 @@
 	
 	function UpdatePlayList()
 	{
-		var videoListTable = document.getElementById("videoListTable");
-		var innerHtml = "<tr><th>縮圖</th><th>標題</th><th>長度</th><th>操作</th></tr>";
+		var videoListTable = document.getElementById("videoListTbody");
+		var innerHtml = "";
 		for (var i = 0; i < videoList.length; i++)
 		{
 			var video = videoList[i];
@@ -161,11 +168,12 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
+				var row = "<td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
 				var moveUpBtn = "<button type=\"button\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:50px;\">上移</button>";
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
 				
+				row = row.concat("<tr>");
 				row = row.concat("<td>");
 				row = row.concat(moveUpBtn);
 				row = row.concat(moveDownBtn);
