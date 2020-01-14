@@ -4,8 +4,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--CSS files-->
 <link rel="stylesheet" type="text/css" href="lib/alertify/css/themes/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="lib/alertify/css/themes/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/dataTables.bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/alertify/css/alertify.css"/>
 <!--JS files-->
 <script src="https://www.youtube.com/player_api"></script>
@@ -68,17 +70,20 @@
 		<a class="next" onclick="PlayNextVideo()">&#10095;</a>
 	</div>
 
-	<div style="width: 100%; height: 200px; overflow-y: scroll;">
-		輸入Youtube影片網址 : <input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
-		<input type="submit" value="加入清單" onclick="CreateVideo()">
+	<div style="width: 100%;">
+		<div style="text-align: center;">
+			Youtube Link : 
+			<input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
+		<input type="submit" value="Enter" onclick="CreateVideo()">
+		</div>
 		
-		<table id="videoListTable" class="display" style="max-width:100%;text-align: center;">
+		<table id="videoListTable" class="table display" style="max-width:100%;text-align: center;">
 			<thead>
 				<tr>
-					<th width="10%">縮圖</th>
-					<th>標題</th>
-					<th width="15%">長度</th>
-					<th width="15%">操作</th>
+					<th width="10%">Image</th>
+					<th>Title</th>
+					<th width="15%">Duration</th>
+					<th width="15%">Options</th>
 				</tr>
 			</thead>
 			<tbody id="videoListTbody">
@@ -102,9 +107,11 @@
 	var playingIndex = -1;
 	var videoListTable = $('#videoListTable').DataTable
 		({
+			"scrollY": 100,
 			"paging":   false,
 			"ordering": false,
-			"info":     false
+			"info":     false,
+			"language": {"emptyTable": " "}
 		});
 	
 	$(document).ready( function () 
