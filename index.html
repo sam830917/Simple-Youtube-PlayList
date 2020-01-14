@@ -100,14 +100,15 @@
 	var videoList = [];
 	var isPlaying = false;
 	var playingIndex = -1;
-	
-	$(document).ready( function () 
-	{
-		$('#videoListTable').DataTable({
+	var videoListTable = $('#videoListTable').DataTable
+		({
 			"paging":   false,
 			"ordering": false,
 			"info":     false
 		});
+	
+	$(document).ready( function () 
+	{
 	});
 	
 	function CreateVideo()
@@ -154,23 +155,23 @@
 						isPlaying = true;
 						PlayNextVideo();
 					}
+					alertify.success('Add Video Succeed!');
 					UpdatePlayList();
 				}
 		)
 		
 		}).catch(function(err) {
+			alertify.error('Add Video Succeed!');
 			console.log('Get Video Detail Error')
 		});
 	}
 	
 	function UpdatePlayList()
 	{
-		var videoListTable = document.getElementById("videoListTbody");
-		var innerHtml = "";
+		videoListTable.clear().draw();
 		for (var i = 0; i < videoList.length; i++)
 		{
 			var video = videoList[i];
-			//console.log(video);
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
@@ -178,18 +179,9 @@
 				var moveDownBtn = "<button type=\"button\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:50px;\">下移</button>";
 				var deleteBtn = "<button type=\"button\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:50px;\">刪除</button>";
 				
-				var row = "<tr><td>" + imgHtml + "</td><td>" + video.title + "</td><td>" + ConvertVideoTimeFormat(video.duration) + "</td>";
-				row = row.concat("<td>");
-				row = row.concat(moveUpBtn);
-				row = row.concat(moveDownBtn);
-				row = row.concat(deleteBtn);
-				row = row.concat("</td>");
-				row = row.concat("</tr>");
-				//console.log(row);
-				innerHtml = innerHtml.concat(row);
+				videoListTable.row.add( [ imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
 			}
 		}
-		videoListTable.innerHTML = innerHtml;
 	}
 	
 	function DeleteOneOnList(deleteIndex)
