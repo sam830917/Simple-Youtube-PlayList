@@ -163,15 +163,13 @@
 				var thisRowDataIndex = rowData[0];
 				if ( changeRowIndex == thisRowDataIndex )
 				{
-					console.log( playingIndex + changeRowIndex, playingIndex + diff[i].newData );
 					videoList.move(playingIndex + changeRowIndex, playingIndex + diff[i].newData);
-					PrintCurrentPlayList();
 					UpdatePlayList();
 					return;
 				}
 				
-				console.log( rowData[0]+' updated to be in position '+
-					diff[i].newData+' (was '+diff[i].oldData+')' );
+				//console.log( rowData[0]+' updated to be in position '+
+				//	diff[i].newData+' (was '+diff[i].oldData+')' );
 			}
 		});
 			
