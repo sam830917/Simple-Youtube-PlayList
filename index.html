@@ -123,7 +123,7 @@
 
 <script>
 	// google api key
-	var key = "AIzaSyDoZViKwl7ooWYDNB4F4P3x_QgIbMFyOig";
+	var key = "AIzaSyCy59eupuIfTrpVELlGgnnCSS8isRU-lXY";
 	
 	var videoList = [];
 	var isPlaying = false;
@@ -187,7 +187,7 @@
 					var title = data.items[0].snippet.title;
 					var imgInfo = data.items[0].snippet.thumbnails.default;
 					
-					video.duration = duration;
+					video.duration = ConvertVideoTimeFormat(duration);
 					video.title = title;
 					video.url = urlId;
 					video.imgInfo.url = imgInfo.url;
@@ -222,11 +222,12 @@
 			if(!video.isDelete && !video.isPlayed)
 			{
 				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
+				var moveTopBtn = "<input type=\"image\" src=\"Image/up-arrow.png\" onclick=\"MoveTopOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
 				var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
 				var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
 				var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
 				
-				videoListTable.row.add( [ index++, imgHtml, video.title, ConvertVideoTimeFormat(video.duration), moveUpBtn.concat(moveDownBtn, deleteBtn) ] ).draw().node();
+				videoListTable.row.add( [ index++, imgHtml, video.title, video.duration, moveTopBtn.concat(moveUpBtn, moveDownBtn, deleteBtn) ] ).draw().node();
 			}
 		}
 	}
@@ -272,6 +273,15 @@
 		UpdatePlayList();
 	}
 	
+	function MoveTopOnList(moveIndex)
+	{
+		var videoObj =  videoList[moveIndex];
+		videoList.splice(moveIndex, 1);
+		videoList.splice(playingIndex + 1, 0, videoObj);
+		//PrintCurrentPlayList();
+		UpdatePlayList();
+	}
+	
 	var player;
 	function PlayNextVideo()
 	{
@@ -290,7 +300,8 @@
 		if (typeof player !== 'undefined')
 		{
 			player.loadVideoById(videoId);
-			console.log(playingIndex);
+			//console.log(playingIndex);
+			//PrintCurrentPlayList();
 		}
 		else
 		{
@@ -351,7 +362,18 @@
         }
     }
 	
-	// ------------------------ Utils ------------------------
+// ---------------------------- Helper functions ----------------------------
+	function PrintCurrentPlayList()
+	{
+		console.log("---------------------------------------------");
+		for (var i = 0; i < videoList.length; i++)
+		{
+			console.log(JSON.stringify(videoList[i]));
+		}
+		console.log("---------------------------------------------");
+	}
+	
+// ---------------------------- Utils ----------------------------
 	
 	function pad(num) 
 	{
@@ -360,7 +382,8 @@
 	
 	function ConvertVideoTimeFormat(durationTimeStr)
 	{
-		var durationSec = moment.duration('PT15M33S').asSeconds();
+		//var durationSec = moment.duration('PT15M33S').asSeconds();
+		var durationSec = moment.duration(durationTimeStr).asSeconds();
 		var minutes = Math.floor(durationSec / 60);
 		durationSec = durationSec%60;
 		var hours = Math.floor(minutes/60)
