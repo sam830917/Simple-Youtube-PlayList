@@ -7,6 +7,11 @@
  - Page will play next video automatically when current video go end.
  - You can adjust order from play list above (by mouse or button).
  
+## TODO
+ - Save current playlist.
+ - Can inport video from Youtube playlist link.
+ - Can export Youtube playlist link.
+ 
 ## Thiry Party
  - jQuery 3.3.1
  - DataTables 1.10.20
