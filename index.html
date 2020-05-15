@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/jquery.dataTables.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/DataTables-1.10.20/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="lib/RowReorder-1.2.7/css/rowReorder.bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="lib/alertify/css/alertify.css"/>
 <!--JS files-->
 <script src="https://www.youtube.com/player_api"></script>
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="lib/datatables.min.js"></script>
 <script type="text/javascript" src="lib/alertify/alertify.js"></script>
 <script type="text/javascript" src="lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/RowReorder-1.2.7/js/dataTables.rowReorder.min.js"></script>
 
 <title>SamChu - Simple Youtube PlayList</title>
 <style>
@@ -139,14 +141,39 @@
 	
 	$(document).ready( function () 
 	{
+		// Datatable initial
 		videoListTable = $('#videoListTable').DataTable
-			({
-				"scrollY": "300px",
-				"paging":   false,
-				"ordering": false,
-				"info":     false,
-				"language": {"emptyTable": " "}
-			});
+		({
+			scrollY: "300px",
+			paging:   false,
+			ordering: false,
+			info:     false,
+			rowReorder: true,
+			language: {"emptyTable": " "},
+		});
+		videoListTable.on( 'row-reorder', function ( e, diff, edit ) 
+		{
+			var changeRowIndex = edit.triggerRow.data()[0];
+			console.log( diff );
+	
+			for ( var i=0, ien=diff.length ; i<ien ; i++ ) 
+			{
+				var rowData = videoListTable.row( diff[i].node ).data();
+				
+				var thisRowDataIndex = rowData[0];
+				if ( changeRowIndex == thisRowDataIndex )
+				{
+					console.log( playingIndex + changeRowIndex, playingIndex + diff[i].newData );
+					videoList.move(playingIndex + changeRowIndex, playingIndex + diff[i].newData);
+					PrintCurrentPlayList();
+					UpdatePlayList();
+					return;
+				}
+				
+				console.log( rowData[0]+' updated to be in position '+
+					diff[i].newData+' (was '+diff[i].oldData+')' );
+			}
+		});
 			
 		$("#flip").click(function(){
 			if ($("#playListPanel").is(':visible'))
@@ -414,10 +441,16 @@
 	
 	// https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url?page=1&tab=votes#tab-top
 	function YoutubeUrlParser(url){
+	
 		var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
 		var match = url.match(regExp);
 		return (match&&match[1].length==11)? match[1] : false;
 	}
+	
+	Array.prototype.move = function (from, to) 
+	{
+		this.splice(to, 0, this.splice(from, 1)[0]);
+	};
 	
 	// ------------------------ Utils ------------------------
 </script>
