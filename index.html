@@ -88,7 +88,7 @@
 		<div style="text-align: center;">
 			Youtube Link : 
 			<input type="text" name="youtubeUrlInput" id="youtubeUrlInput" value="">
-		<input type="submit" value="Enter" onclick="CreateVideo()">
+		<input id="submitBtn" type="submit" value="Enter" onclick="CreateVideo()">
 		</div>
 		
 		<table id="videoListTable" class="table display" style="text-align: center;">
@@ -130,6 +130,13 @@
 	var playingIndex = -1;
 	var videoListTable;
 	
+	document.body.onpaste = e => 
+	{
+		var pastedData = e.clipboardData.getData('text');
+		CreateVideo(pastedData);
+		setTimeout(function(){ youtubeUrlInput.value = ""; }, 100);
+	};
+	
 	$(document).ready( function () 
 	{
 		videoListTable = $('#videoListTable').DataTable
@@ -156,15 +163,28 @@
 	
 	function CreateVideo()
 	{
-		var ytId = YoutubeUrlParser($("#youtubeUrlInput").val());
-		
+		var inputText = $("#youtubeUrlInput").val();
+		if (inputText == "")
+		{
+			return;
+		}
+		CreateVideo(inputText);
+		youtubeUrlInput.value = "";
+	}
+	
+	function CreateVideo(ytLink)
+	{
+		if (ytLink == "")
+		{
+			return;
+		}
+		var ytId = YoutubeUrlParser(ytLink);
 		var newVideo = {title:"Null", duration:"PT0S", url:"#", imgInfo:{url:"#", width:"0", height:"0"}, isDelete:true, isPlayed:false};
-		//console.log(ytId);
+		
 		if(ytId)
 		{
 			SetNewVideoIntoList(ytId, newVideo);
 		}
-		youtubeUrlInput.value = "";
 	}
 	
 	function SetNewVideoIntoList(urlId, video)
