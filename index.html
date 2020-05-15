@@ -216,26 +216,27 @@
 	{
 		videoListTable.clear().draw();
 		var index = 1;
-		for (var i = 0; i < videoList.length; i++)
+		for (var i = playingIndex+1; i < videoList.length; i++)
 		{
 			var video = videoList[i];
-			if(!video.isDelete && !video.isPlayed)
-			{
-				var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
-				var moveTopBtn = "<input type=\"image\" src=\"Image/up-arrow.png\" onclick=\"MoveTopOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
-				var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
-				var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
-				var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
-				
-				videoListTable.row.add( [ index++, imgHtml, video.title, video.duration, moveTopBtn.concat(moveUpBtn, moveDownBtn, deleteBtn) ] ).draw().node();
-			}
+			
+			var imgHtml = "<img src=\"" + video.imgInfo.url + "\" width=\"" + video.imgInfo.width + "\" height=\"" + video.imgInfo.height + "\">";
+			var moveTopBtn = "<input type=\"image\" src=\"Image/up-arrow.png\" onclick=\"MoveTopOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+			var moveUpBtn = "<input type=\"image\" src=\"Image/up-arrow2.png\" onclick=\"MoveUpOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+			var moveDownBtn = "<input type=\"image\" src=\"Image/down-arrow2.png\" onclick=\"MoveDownOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+			var deleteBtn = "<input type=\"image\" src=\"Image/delete-btn.png\" onclick=\"DeleteOneOnList(" + i + ")\" style=\"width:30px;height:30px\"></input>";
+			
+			videoListTable.row.add( [ index++, imgHtml, video.title, video.duration, moveTopBtn.concat(moveUpBtn, moveDownBtn, deleteBtn) ] ).draw().node();
 		}
 	}
 	
 	function DeleteOneOnList(deleteIndex)
 	{
-		var video = videoList[deleteIndex];
-		video.isDelete = true;
+		videoList.splice(deleteIndex, 1);
+		if ( playingIndex != 0 && deleteIndex <= playingIndex )
+		{
+			playingIndex--;
+		}
 		console.log("Delete Succeed!");
 		UpdatePlayList();
 	}
@@ -285,18 +286,14 @@
 	var player;
 	function PlayNextVideo()
 	{
-		// If not Playing, start to play when succeed adding video.
-		var video;
-		do{
-			if(playingIndex == videoList.length - 1)
-			{
-				isPlaying = false;
-				return;
-			}
-			video = videoList[++playingIndex];
-		}while(video.isDelete);
-		var videoId = video.url;
+		if(playingIndex == videoList.length - 1)
+		{
+			isPlaying = false;
+			return;
+		}
+		var video = videoList[++playingIndex];
 		
+		var videoId = video.url;
 		if (typeof player !== 'undefined')
 		{
 			player.loadVideoById(videoId);
@@ -322,16 +319,13 @@
 	
 	function PlayPreviousVideo()
 	{
+		if(playingIndex <= 0)
+		{
+			return;
+		}
 		var currentIndex = playingIndex;
 		
-		var video;
-		do{
-			if(playingIndex <= 0)
-			{
-				return;
-			}
-			video = videoList[--playingIndex];
-		}while(video.isDelete);
+		var video = videoList[--playingIndex];
 		var videoId = video.url;
 		
 		if (typeof player !== 'undefined')
