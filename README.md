@@ -9,7 +9,7 @@
  
 ## TODO
  - Save current playlist.
- - Can inport video from Youtube playlist link.
+ - Can import video from Youtube playlist link.
  - Can export Youtube playlist link.
  
 ## Thiry Party
