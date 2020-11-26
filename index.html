@@ -224,8 +224,8 @@
 		.then(function(response) {
 			response.json().then(
 				function(data){
-					var jsonData = JSON.stringify(data);
-					console.log( jsonData );
+					//var jsonData = JSON.stringify(data);
+					//console.log( jsonData );
 					
 					var duration = data.items[0].contentDetails.duration;
 					var title = data.items[0].snippet.title;
