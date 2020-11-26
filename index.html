@@ -245,13 +245,13 @@
 						isPlaying = true;
 						PlayNextVideo();
 					}
-					alertify.success('Add Video Succeed!');
+					alertify.success('Added Video Successfully!');
 					UpdatePlayList();
 				}
 		)
 		
 		}).catch(function(err) {
-			alertify.error('Add Video Succeed!');
+			alertify.error('Failed to add Video!');
 			console.log('Get Video Detail Error')
 		});
 	}
@@ -281,7 +281,7 @@
 		{
 			playingIndex--;
 		}
-		console.log("Delete Succeed!");
+		console.log("Deleted Successfully!");
 		UpdatePlayList();
 	}
 	
